@@ -1,7 +1,60 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import { motion } from "framer-motion";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 import "./index.css";
+
+// Typewriter component for typing animation
+function Typewriter({
+  words,
+  loop = true,
+  typingSpeed = 150,
+  deletingSpeed = 80,
+  delay = 2000,
+}: {
+  words: string[];
+  loop?: boolean;
+  typingSpeed?: number;
+  deletingSpeed?: number;
+  delay?: number;
+}) {
+  const [text, setText] = useState("");
+  const [wordIndex, setWordIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+
+    const handleTyping = () => {
+      const current = wordIndex % words.length;
+      const fullText = words[current];
+
+      if (isDeleting) {
+        setText(fullText.substring(0, text.length - 1));
+      } else {
+        setText(fullText.substring(0, text.length + 1));
+      }
+
+      if (!isDeleting && text === fullText) {
+        timer = setTimeout(() => setIsDeleting(true), delay);
+      } else if (isDeleting && text === "") {
+        setIsDeleting(false);
+        setWordIndex((prev) => prev + 1);
+      } else {
+        timer = setTimeout(
+          handleTyping,
+          isDeleting ? deletingSpeed : typingSpeed
+        );
+      }
+    };
+
+    timer = setTimeout(handleTyping, isDeleting ? deletingSpeed : typingSpeed);
+
+    return () => clearTimeout(timer);
+  }, [text, isDeleting, wordIndex, words, typingSpeed, deletingSpeed, delay]);
+
+  return <span className="text-yellow-300 font-semibold">{text}</span>;
+}
 
 function App() {
   return (
@@ -27,16 +80,28 @@ function App() {
             transition={{ duration: 1 }}
           />
         </div>
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 text-yellow-400">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-2 text-yellow-400">
           RB Yogeshwar
         </h1>
+
+        {/* Typing animation tagline */}
+        <p className="text-yellow-300 text-lg sm:text-xl mb-6 h-8">
+          <Typewriter
+            words={[
+              "Software Engineer",
+              "Machine Learning Enthusiast",
+              "Full-Stack Developer",
+            ]}
+          />
+        </p>
+
         <p className="max-w-2xl text-gray-300 text-lg sm:text-xl mb-6">
           A results-driven Software Engineer specializing in Python, full-stack
           development, and machine learning — delivering elegant solutions with
           modern UI/UX.
         </p>
         <a
-          href="https://your-resume-link.com"
+          href="https://drive.google.com/file/d/1ewLsEf8p7jirKoiLC5wYKP-IVGkUuysz/view?usp=sharing"
           target="_blank"
           rel="noopener noreferrer"
           className="mt-4 inline-block bg-yellow-400 text-black font-semibold px-6 py-2 rounded shadow hover:bg-yellow-300 transition"
@@ -199,8 +264,28 @@ function App() {
         </a>
       </motion.section>
 
-      {/* Footer */}
+      {/* Footer with Social Media Icons */}
       <footer className="bg-[#0b0b0b] text-center py-6 text-sm text-gray-500 border-t border-gray-800">
+        <div className="flex justify-center space-x-6 mb-2 text-yellow-400">
+          <a
+            href="https://github.com/yogeshwarrb"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            className="hover:text-yellow-300 transition"
+          >
+            <FaGithub size={24} />
+          </a>
+          <a
+            href="www.linkedin.com/in/rb-yogeshwar-32b619307"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            className="hover:text-yellow-300 transition"
+          >
+            <FaLinkedin size={24} />
+          </a>
+        </div>
         &copy; {new Date().getFullYear()} RB Yogeshwar. All rights reserved.
       </footer>
     </div>
