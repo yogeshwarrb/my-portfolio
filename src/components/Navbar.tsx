@@ -1,74 +1,88 @@
 import React, { useState } from "react";
-import { FiMenu, FiX } from "react-icons/fi";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
+  const navLinks = ["Home", "Projects", "Contact"];
+
+  const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
-    <nav className="w-full p-4 bg-[#0e0e0e] text-white fixed top-0 left-0 z-50">
-      <div className="max-w-6xl mx-auto flex justify-between items-center">
-        <div className="text-xl font-bold">Yogeshwar</div>
+    <header className="fixed top-0 left-0 w-full z-50 bg-[#0b0b0b] border-b border-gray-800 shadow-sm">
+      <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+        <h1 className="text-yellow-400 font-bold text-xl tracking-wide">
+          RB Yogeshwar
+        </h1>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex space-x-6">
-          <a href="#hero" className="hover:text-yellow-400">
-            Home
-          </a>
-          <a href="#projects" className="hover:text-yellow-400">
-            Projects
-          </a>
-          <a href="#contact" className="hover:text-yellow-400">
-            Contact
-          </a>
-          <a href="#resume" className="hover:text-yellow-400">
-            Resume
-          </a>
-        </div>
+        <nav className="hidden md:flex space-x-8">
+          {navLinks.map((link) => (
+            <a
+              key={link}
+              href={`#${link.toLowerCase()}`}
+              className="text-gray-300 hover:text-yellow-400 transition"
+            >
+              {link}
+            </a>
+          ))}
+        </nav>
 
         {/* Hamburger Icon */}
-        <div className="md:hidden z-50" onClick={toggleMenu}>
-          {menuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+        <div className="md:hidden z-50">
+          <button
+            onClick={toggleMenu}
+            className="focus:outline-none text-yellow-400"
+          >
+            {isOpen ? (
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
+          </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
-      {menuOpen && (
-        <div className="md:hidden bg-[#0e0e0e] px-6 pt-4 pb-6 space-y-4">
-          <a
-            href="#hero"
-            className="block hover:text-yellow-400"
-            onClick={toggleMenu}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.nav
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden bg-[#0b0b0b] px-6 pb-4 pt-2 border-t border-gray-800"
           >
-            Home
-          </a>
-          <a
-            href="#projects"
-            className="block hover:text-yellow-400"
-            onClick={toggleMenu}
-          >
-            Projects
-          </a>
-          <a
-            href="#contact"
-            className="block hover:text-yellow-400"
-            onClick={toggleMenu}
-          >
-            Contact
-          </a>
-          <a
-            href="#resume"
-            className="block hover:text-yellow-400"
-            onClick={toggleMenu}
-          >
-            Resume
-          </a>
-        </div>
-      )}
-    </nav>
+            <div className="flex flex-col space-y-4">
+              {navLinks.map((link) => (
+                <a
+                  key={link}
+                  href={`#${link.toLowerCase()}`}
+                  onClick={() => setIsOpen(false)}
+                  className="text-gray-300 hover:text-yellow-400 transition"
+                >
+                  {link}
+                </a>
+              ))}
+            </div>
+          </motion.nav>
+        )}
+      </AnimatePresence>
+    </header>
   );
 };
 
