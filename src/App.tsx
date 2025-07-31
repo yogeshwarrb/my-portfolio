@@ -1,169 +1,112 @@
 import React from "react";
+import Navbar from "./components/Navbar";
 import { motion } from "framer-motion";
-import emailjs from "@emailjs/browser";
-//import "./App.css";
+//import "./index.css";
 
-function HeroSection() {
+function App() {
   return (
-    <section className="min-h-screen bg-[#0e0e0e] text-white flex flex-col justify-center items-center px-6">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.5 }}
-        className="relative"
+    <div className="bg-[#0b0b0b] text-white font-custom">
+      <Navbar />
+
+      {/* Hero Section */}
+      <motion.section
+        id="home"
+        className="min-h-screen flex flex-col justify-center items-center text-center px-6 mt-20"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
       >
-        <div className="rounded-full p-1 bg-gradient-to-tr from-pink-500 via-indigo-500 to-blue-500 animate-spin-slow hover:animate-pulse transition-all">
-          <img
-            src="https://i.postimg.cc/fRBpfJPJ/passport-photo.jpg"
-            alt="Profile"
-            className="w-40 h-40 rounded-full object-cover border-4 border-[#0e0e0e]"
-          />
-        </div>
-      </motion.div>
-      <h1 className="text-4xl sm:text-5xl font-bold mt-6 text-white">
-        RB Yogeshwar
-      </h1>
-      <p className="text-gray-300 mt-4 text-center max-w-xl">
-        Final-year Software Engineer | Python • Machine Learning • SQL • React
-      </p>
-      <a
-        href="https://drive.google.com/file/d/1ewLsEf8p7jirKoiLC5wYKP-IVGkUuysz/view?usp=sharing"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-6 inline-block px-6 py-3 border border-indigo-500 text-indigo-400 rounded hover:bg-indigo-500 hover:text-white transition"
+        <motion.img
+          src="https://i.ibb.co/TbFgJ0Q/myprofile.png"
+          alt="RB Yogeshwar"
+          className="w-40 h-40 rounded-full border-4 border-yellow-400 shadow-lg mb-6 hover:scale-105 transition-transform duration-300"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1 }}
+        />
+
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 text-yellow-400">
+          Hi, I'm RB Yogeshwar
+        </h1>
+        <p className="max-w-2xl text-gray-300 text-lg sm:text-xl mb-6">
+          A passionate full-stack Python developer and machine learning
+          enthusiast, blending creative engineering with robust backend logic.
+        </p>
+        <a
+          href="https://drive.google.com/file/d/1W8GMOUQg_YLxXN3NO5yAln5dLepznNqZ/view?usp=sharing"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-4 inline-block bg-yellow-400 text-black font-semibold px-6 py-2 rounded shadow hover:bg-yellow-300 transition"
+        >
+          View Resume
+        </a>
+      </motion.section>
+
+      {/* Projects Section */}
+      <motion.section
+        id="projects"
+        className="py-20 px-6 max-w-6xl mx-auto"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7 }}
       >
-        View Resume
-      </a>
-    </section>
-  );
-}
-
-function ProjectsSection() {
-  const projects = [
-    {
-      title: "GPS Tracking System",
-      description:
-        "Real-time GPS tracking system integrating latitude and longitude coordinates. Uses Folium to dynamically plot points on an interactive map.",
-      tech: ["Python", "Folium", "Geolocation"],
-      link: "https://github.com/yourusername/gps-tracker",
-    },
-    {
-      title: "Water Quality Prediction",
-      description:
-        "An ML model that uses RNN, CNN, and Random Forest algorithms to predict water quality based on pH and chemical metrics.",
-      tech: ["RNN", "CNN", "Random Forest"],
-      link: "https://github.com/yourusername/water-quality-predictor",
-    },
-  ];
-
-  return (
-    <section className="bg-[#0e0e0e] text-white py-16 px-4 sm:px-10">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-center mb-12">Projects</h2>
-        <div className="grid sm:grid-cols-2 gap-8">
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.05 }}
-              className="bg-[#1a1a1a] p-6 rounded-xl shadow-lg border border-gray-700 transition-all"
-            >
-              <h3 className="text-2xl font-semibold mb-3">{project.title}</h3>
-              <p className="text-gray-300 mb-4">{project.description}</p>
-              <div className="flex flex-wrap gap-2 text-sm mb-4">
-                {project.tech.map((tech, idx) => (
-                  <span
-                    key={idx}
-                    className="bg-[#2e2e2e] px-3 py-1 rounded-full text-white"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block text-indigo-400 hover:text-indigo-300 font-medium"
-              >
-                View on GitHub →
-              </a>
-            </motion.div>
-          ))}
+        <h2 className="text-3xl font-bold text-yellow-400 mb-6 text-center">
+          Featured Projects
+        </h2>
+        <div className="space-y-8">
+          <div className="bg-[#1a1a1a] p-6 rounded-lg shadow-md border border-gray-800 hover:shadow-yellow-500/10 transition">
+            <h3 className="text-xl font-semibold mb-2 text-white">
+              Water Quality Prediction using ML
+            </h3>
+            <p className="text-gray-400">
+              Predicts water potability using advanced machine learning
+              techniques, offering clean UI and accurate analytics for
+              environmental safety.
+            </p>
+          </div>
+          <div className="bg-[#1a1a1a] p-6 rounded-lg shadow-md border border-gray-800 hover:shadow-yellow-500/10 transition">
+            <h3 className="text-xl font-semibold mb-2 text-white">
+              Real-time GPS Tracker App
+            </h3>
+            <p className="text-gray-400">
+              Built using Python and modern frameworks, this app tracks user
+              movement live on the map, ideal for logistics or personal safety
+              use-cases.
+            </p>
+          </div>
         </div>
-      </div>
-    </section>
-  );
-}
+      </motion.section>
 
-function ContactSection() {
-  const sendEmail = (e: any) => {
-    e.preventDefault();
-    emailjs
-      .sendForm(
-        "service_brbb3fd",
-        "template_nuvybp7",
-        e.target,
-        "yYrt4Lh2CCW5PD6GQ"
-      )
-      .then(
-        () => alert("Message sent successfully!"),
-        (error) => alert("Something went wrong: " + error.text)
-      );
-    e.target.reset();
-  };
+      {/* Contact Section */}
+      <motion.section
+        id="contact"
+        className="py-20 px-6 max-w-3xl mx-auto text-center"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7 }}
+      >
+        <h2 className="text-3xl font-bold text-yellow-400 mb-6">
+          Let’s Connect
+        </h2>
+        <p className="text-gray-300 mb-8">
+          Whether you're a recruiter or collaborator — feel free to reach out!
+        </p>
+        <a
+          href="mailto:rbyogeshwar@email.com"
+          className="inline-block bg-yellow-400 text-black font-semibold px-6 py-2 rounded shadow hover:bg-yellow-300 transition"
+        >
+          Drop a Mail
+        </a>
+      </motion.section>
 
-  return (
-    <section className="bg-[#0e0e0e] text-white py-16 px-4 sm:px-10">
-      <div className="max-w-xl mx-auto">
-        <h2 className="text-4xl font-bold text-center mb-10">Contact Me</h2>
-        <form onSubmit={sendEmail} className="space-y-6">
-          <input
-            type="text"
-            name="from_name"
-            placeholder="Your Name"
-            className="w-full p-3 rounded bg-[#1a1a1a] border border-gray-700 text-white"
-            required
-          />
-          <input
-            type="email"
-            name="from_email"
-            placeholder="Your Email"
-            className="w-full p-3 rounded bg-[#1a1a1a] border border-gray-700 text-white"
-            required
-          />
-          <textarea
-            name="message"
-            placeholder="Your Message"
-            className="w-full p-3 rounded bg-[#1a1a1a] border border-gray-700 text-white h-40"
-            required
-          />
-          <button
-            type="submit"
-            className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-6 rounded transition"
-          >
-            Send Message
-          </button>
-        </form>
-      </div>
-    </section>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="bg-[#0a0a0a] text-gray-500 text-sm text-center py-6">
-      <p>© 2025 RB Yogeshwar. All rights reserved.</p>
-    </footer>
-  );
-}
-
-export default function App() {
-  return (
-    <div className="font-sans bg-[#0b0b0b] text-white">
-      <HeroSection />
-      <ProjectsSection />
-      <ContactSection />
-      <Footer />
+      {/* Footer */}
+      <footer className="bg-[#0b0b0b] text-center py-6 text-sm text-gray-500 border-t border-gray-800">
+        &copy; {new Date().getFullYear()} RB Yogeshwar. All rights reserved.
+      </footer>
     </div>
   );
 }
+
+export default App;

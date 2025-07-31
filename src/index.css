@@ -67,3 +67,6 @@ body {
 .project-link:hover {
   color: #ffffff;
 }
+html {
+  scroll-behavior: smooth;
+}

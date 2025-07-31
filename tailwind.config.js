@@ -8,9 +8,16 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        serif: ['Playfair Display', 'serif'],
+        sans: ["Inter", "sans-serif"],
+        serif: ["Playfair Display", "serif"],
       },
     },
-  }
+    theme: {
+      extend: {
+        fontFamily: {
+          poppins: ["Poppins", "Segoe UI", "Helvetica Neue", "sans-serif"],
+        },
+      },
+    },
+  },
 };
