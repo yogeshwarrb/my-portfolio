@@ -1,122 +1,126 @@
-import React, { useRef } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
-import "./index.css"; // Ensure Tailwind + Inter font are loaded
 
-export default function App() {
-  const form = useRef<HTMLFormElement>(null);
+const profileImage = "https://i.postimg.cc/fRBpfJPJ/passport-photo.jpg";
+const resumeLink =
+  "https://drive.google.com/file/d/1ewLsEf8p7jirKoiLC5wYKP-IVGkUuysz/view?usp=sharing";
 
-  const sendEmail = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (form.current) {
-      emailjs
-        .sendForm(
-          "service_jp8zidp",
-          "template_oxg85ll",
-          form.current,
-          "yYrt4Lh2CCW5PD6GQ"
-        )
-        .then(
-          (result) => {
-            alert("Message sent successfully!");
-            form.current?.reset();
-          },
-          (error) => {
-            alert("Failed to send message.");
-          }
-        );
-    }
-  };
-
+const App = () => {
   return (
-    <main className="bg-[#0f0f0f] text-white font-inter min-h-screen">
+    <div
+      className="min-h-screen bg-gray-900 text-white font-sans px-6"
+      style={{
+        fontFamily:
+          '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+      }}
+    >
       {/* Hero Section */}
-      <section className="flex flex-col items-center justify-center text-center py-20 px-4">
-        <motion.img
-          src="https://i.postimg.cc/fRBpfJPJ/passport-photo.jpg"
-          alt="Profile"
-          className="w-40 h-40 rounded-full object-cover border-4 border-white shadow-lg mb-6"
+      <section className="flex flex-col items-center justify-center text-center py-20">
+        {/* Animated Profile Photo */}
+        <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2 }}
-        />
-        <motion.h1
-          className="text-4xl md:text-6xl font-extrabold leading-tight"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 1 }}
+          className="relative w-48 h-48 rounded-full mb-6"
         >
-          Hey, I'm <span className="text-red-500">Yogeshwar RB</span>
-        </motion.h1>
-        <motion.p
-          className="mt-4 text-lg md:text-2xl text-gray-300 max-w-2xl font-medium"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.8 }}
-        >
-          Final Year Software Engineer skilled in Python, ML, SQL, and creating intelligent tech solutions.
-        </motion.p>
-        <motion.a
-          href="https://drive.google.com/file/d/1ewLsEf8p7jirKoiLC5wYKP-IVGkUuysz/view?usp=sharing"
+          <div className="absolute inset-0 rounded-full animate-spin-slow bg-gradient-to-tr from-pink-500 via-purple-500 to-indigo-500 p-[5px]">
+            <div className="bg-gray-900 rounded-full w-full h-full flex items-center justify-center">
+              <img
+                src={profileImage}
+                alt="Profile"
+                className="w-full h-full object-cover rounded-full transition duration-300 transform hover:scale-105"
+              />
+            </div>
+          </div>
+        </motion.div>
+
+        <h1 className="text-4xl font-bold mb-4">RB Yogeshwar</h1>
+        <p className="text-lg text-gray-300 max-w-xl">
+          Final Year Software Engineer | Python | Machine Learning | SQL |
+          Building standout solutions with a passion for innovation.
+        </p>
+
+        {/* Resume Button */}
+        <a
+          href={resumeLink}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-8 inline-block px-6 py-3 rounded-full bg-white text-gray-900 font-bold hover:bg-gray-200 transition duration-300"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
+          className="mt-6 inline-block px-6 py-2 border border-white rounded-md text-white hover:bg-white hover:text-gray-900 transition duration-300"
         >
           View Resume
-        </motion.a>
+        </a>
       </section>
 
-      {/* Quote Section */}
-      <section className="bg-[#1a1a1a] py-10 px-6 text-center">
-        <p className="text-xl italic text-gray-400 max-w-xl mx-auto">
-          “I don’t just build software. I craft solutions with impact.”
-        </p>
+      {/* Skills Section */}
+      <section className="py-20 border-t border-gray-700">
+        <h2 className="text-3xl font-bold text-center mb-12">Skills</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 text-center text-gray-300">
+          <div className="hover:text-white transition">Python</div>
+          <div className="hover:text-white transition">Machine Learning</div>
+          <div className="hover:text-white transition">SQL</div>
+          <div className="hover:text-white transition">React</div>
+          <div className="hover:text-white transition">Tailwind CSS</div>
+          <div className="hover:text-white transition">Data Analysis</div>
+          <div className="hover:text-white transition">Git & GitHub</div>
+          <div className="hover:text-white transition">REST APIs</div>
+        </div>
       </section>
 
       {/* Contact Section */}
-      <section className="py-16 px-6 bg-[#121212] text-center">
-        <h2 className="text-3xl font-bold mb-6">Contact Me</h2>
+      <section className="py-20 border-t border-gray-700 text-center">
+        <h2 className="text-3xl font-bold mb-6">Let's Connect</h2>
+        <p className="text-gray-300 mb-4">
+          Open to opportunities — feel free to reach out!
+        </p>
         <form
-          ref={form}
-          onSubmit={sendEmail}
-          className="max-w-xl mx-auto space-y-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            emailjs.sendForm(
+              "service_q9ebzqi",
+              "template_0zdpqzj",
+              e.target,
+              "yYrt4Lh2CCW5PD6GQ"
+            );
+            e.target.reset();
+          }}
+          className="max-w-md mx-auto space-y-4"
         >
           <input
             type="text"
-            name="user_name"
+            name="name"
             placeholder="Your Name"
             required
-            className="w-full p-3 rounded bg-[#1e1e1e] text-white border border-gray-600"
+            className="w-full px-4 py-2 bg-gray-800 text-white rounded"
           />
           <input
             type="email"
-            name="user_email"
+            name="email"
             placeholder="Your Email"
             required
-            className="w-full p-3 rounded bg-[#1e1e1e] text-white border border-gray-600"
+            className="w-full px-4 py-2 bg-gray-800 text-white rounded"
           />
           <textarea
             name="message"
             placeholder="Your Message"
             required
-            className="w-full p-3 h-32 rounded bg-[#1e1e1e] text-white border border-gray-600"
+            className="w-full px-4 py-2 bg-gray-800 text-white rounded"
           ></textarea>
           <button
             type="submit"
-            className="px-6 py-3 bg-red-600 rounded-full font-bold text-white hover:bg-red-700 transition duration-300"
+            className="px-6 py-2 bg-white text-gray-900 rounded hover:bg-gray-200 transition"
           >
-            Send Message
+            Send
           </button>
         </form>
       </section>
 
       {/* Footer */}
-      <footer className="bg-black text-center py-6 text-gray-500 text-sm">
-        © 2025 Yogeshwar RB — Built with 💻 passion and precision.
+      <footer className="py-6 text-center text-gray-500 border-t border-gray-700">
+        <p>© 2025 RB Yogeshwar. All rights reserved.</p>
       </footer>
-    </main>
+    </div>
   );
-}
+};
+
+export default App;
