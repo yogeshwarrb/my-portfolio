@@ -1,5 +1,11 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-scroll";
+
+// ✅ Typed motion.div
+const MotionDiv = motion.div as React.FC<
+  React.HTMLAttributes<HTMLDivElement> & any
+>;
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,13 +24,18 @@ const Navbar = () => {
         {/* Desktop Nav */}
         <nav className="hidden md:flex space-x-8">
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link}
-              href={`#${link.toLowerCase()}`}
-              className="text-gray-300 hover:text-yellow-400 transition"
+              to={link.toLowerCase()}
+              spy={true}
+              smooth={true}
+              offset={-70}
+              duration={500}
+              activeClass="text-yellow-400"
+              className="text-gray-300 hover:text-yellow-400 cursor-pointer transition"
             >
               {link}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -41,7 +52,12 @@ const Navbar = () => {
                 stroke="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             ) : (
               <svg
@@ -50,7 +66,12 @@ const Navbar = () => {
                 stroke="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               </svg>
             )}
           </button>
@@ -60,7 +81,7 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
-          <motion.nav
+          <MotionDiv
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -69,17 +90,22 @@ const Navbar = () => {
           >
             <div className="flex flex-col space-y-4">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link}
-                  href={`#${link.toLowerCase()}`}
+                  to={link.toLowerCase()}
+                  spy={true}
+                  smooth={true}
+                  offset={-70}
+                  duration={500}
+                  activeClass="text-yellow-400"
+                  className="text-gray-300 hover:text-yellow-400 cursor-pointer transition"
                   onClick={() => setIsOpen(false)}
-                  className="text-gray-300 hover:text-yellow-400 transition"
                 >
                   {link}
-                </a>
+                </Link>
               ))}
             </div>
-          </motion.nav>
+          </MotionDiv>
         )}
       </AnimatePresence>
     </header>

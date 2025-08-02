@@ -4,7 +4,18 @@ import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import "./index.css";
 
-// Typewriter component for typing animation
+// ✅ Typed motion components
+const MotionSection = motion.section as React.FC<
+  React.HTMLAttributes<HTMLElement> & any
+>;
+const MotionImg = motion.img as React.FC<
+  React.ImgHTMLAttributes<HTMLImageElement> & any
+>;
+const MotionDiv = motion.div as React.FC<
+  React.HTMLAttributes<HTMLDivElement> & any
+>; // ✅ Fix for motion.div typing
+
+// Typewriter component
 function Typewriter({
   words,
   loop = true,
@@ -23,18 +34,15 @@ function Typewriter({
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-
+    let timer: ReturnType<typeof setTimeout>;
     const handleTyping = () => {
       const current = wordIndex % words.length;
       const fullText = words[current];
-
       if (isDeleting) {
         setText(fullText.substring(0, text.length - 1));
       } else {
         setText(fullText.substring(0, text.length + 1));
       }
-
       if (!isDeleting && text === fullText) {
         timer = setTimeout(() => setIsDeleting(true), delay);
       } else if (isDeleting && text === "") {
@@ -47,9 +55,7 @@ function Typewriter({
         );
       }
     };
-
     timer = setTimeout(handleTyping, isDeleting ? deletingSpeed : typingSpeed);
-
     return () => clearTimeout(timer);
   }, [text, isDeleting, wordIndex, words, typingSpeed, deletingSpeed, delay]);
 
@@ -62,29 +68,26 @@ function App() {
       <Navbar />
 
       {/* Hero Section */}
-      <motion.section
+      <MotionSection
         id="home"
         className="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-28"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        {/* Profile Image */}
         <div className="relative w-40 h-40 sm:w-48 sm:h-48 rounded-full overflow-hidden border-4 border-yellow-400 shadow-lg mb-6 cursor-pointer transition-transform duration-300 hover:scale-105">
-          <motion.img
+          <MotionImg
             src="https://i.postimg.cc/fRBpfJPJ/passport-photo.jpg"
-            alt="RB Yogeshwar"
-            className="w-full h-full object-cover"
-            initial={{ opacity: 0, scale: 0.95 }}
+            alt="Profile"
+            className="w-full h-full object-cover rounded-full"
+            initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1 }}
+            transition={{ duration: 0.8 }}
           />
         </div>
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-2 text-yellow-400">
           RB Yogeshwar
         </h1>
-
-        {/* Typing animation tagline */}
         <p className="text-yellow-300 text-lg sm:text-xl mb-6 h-8">
           <Typewriter
             words={[
@@ -94,7 +97,6 @@ function App() {
             ]}
           />
         </p>
-
         <p className="max-w-2xl text-gray-300 text-lg sm:text-xl mb-6">
           A results-driven Software Engineer specializing in Python, full-stack
           development, and machine learning — delivering elegant solutions with
@@ -108,10 +110,10 @@ function App() {
         >
           View Resume
         </a>
-      </motion.section>
+      </MotionSection>
 
       {/* About Section */}
-      <motion.section
+      <MotionSection
         id="about"
         className="py-20 px-6 max-w-5xl mx-auto text-center"
         initial={{ opacity: 0, y: 40 }}
@@ -126,14 +128,12 @@ function App() {
           I’m a passionate software engineer currently in my final year at SRM
           IST, RMP. With expertise in Python, machine learning, and full-stack
           development, I focus on building clean, efficient, and scalable
-          software. I enjoy crafting engaging user experiences and solving
-          real-world problems using code. Outside of tech, I’m always exploring
-          innovative ideas and ways to grow.
+          software.
         </p>
-      </motion.section>
+      </MotionSection>
 
       {/* Skills Section */}
-      <motion.section
+      <MotionSection
         id="skills"
         className="py-20 px-6 max-w-5xl mx-auto"
         initial={{ opacity: 0, y: 40 }}
@@ -155,7 +155,7 @@ function App() {
             "Git & GitHub",
             "Firebase",
           ].map((skill, index) => (
-            <motion.div
+            <MotionDiv
               key={index}
               className="bg-[#1a1a1a] py-4 px-2 rounded-md border border-gray-800 text-white font-semibold hover:shadow-yellow-500/10 transition"
               initial={{ opacity: 0, y: 30 }}
@@ -164,13 +164,13 @@ function App() {
               transition={{ delay: index * 0.1, duration: 0.5 }}
             >
               {skill}
-            </motion.div>
+            </MotionDiv>
           ))}
         </div>
-      </motion.section>
+      </MotionSection>
 
       {/* Projects Section */}
-      <motion.section
+      <MotionSection
         id="projects"
         className="py-20 px-6 max-w-6xl mx-auto"
         initial={{ opacity: 0, y: 40 }}
@@ -182,66 +182,27 @@ function App() {
           Featured Projects
         </h2>
         <div className="space-y-8">
-          <div
-            className="bg-[#1a1a1a] p-6 rounded-lg shadow-md border border-gray-800
-              hover:shadow-yellow-500/40 hover:scale-105 transition-transform duration-300"
-          >
-            <h3 className="text-xl font-semibold mb-2 text-white">
-              Water Quality Prediction using ML
-            </h3>
-            <p className="text-gray-400">
-              Predicts water potability using advanced machine learning
-              techniques, offering clean UI and accurate analytics for
-              environmental safety.
-            </p>
-          </div>
-
-          <div
-            className="bg-[#1a1a1a] p-6 rounded-lg shadow-md border border-gray-800
-              hover:shadow-yellow-500/40 hover:scale-105 transition-transform duration-300"
-          >
-            <h3 className="text-xl font-semibold mb-2 text-white">
-              Real-time GPS Tracker App
-            </h3>
-            <p className="text-gray-400">
-              Built using Python and modern frameworks, this app tracks user
-              movement live on the map, ideal for logistics or personal safety
-              use-cases.
-            </p>
-          </div>
-
-          <div
-            className="bg-[#1a1a1a] p-6 rounded-lg shadow-md border border-gray-800
-              hover:shadow-yellow-500/40 hover:scale-105 transition-transform duration-300"
-          >
-            <h3 className="text-xl font-semibold mb-2 text-white">
-              Smart Attendance System using Face Recognition
-            </h3>
-            <p className="text-gray-400">
-              An intelligent Python-based attendance tracker that uses facial
-              recognition to automate attendance in real-time, enhancing
-              institutional efficiency.
-            </p>
-          </div>
-
-          <div
-            className="bg-[#1a1a1a] p-6 rounded-lg shadow-md border border-gray-800
-              hover:shadow-yellow-500/40 hover:scale-105 transition-transform duration-300"
-          >
-            <h3 className="text-xl font-semibold mb-2 text-white">
-              AI Chatbot using Python and NLP
-            </h3>
-            <p className="text-gray-400">
-              Designed a conversational chatbot using Python’s NLP libraries to
-              simulate human-like interaction, trained on custom intents for
-              accurate replies.
-            </p>
-          </div>
+          {[
+            "Water Quality Prediction using ML",
+            "Real-time GPS Tracker App",
+            "Smart Attendance System using Face Recognition",
+            "AI Chatbot using Python and NLP",
+          ].map((title, index) => (
+            <div
+              key={index}
+              className="bg-[#1a1a1a] p-6 rounded-lg shadow-md border border-gray-800 hover:shadow-yellow-500/40 hover:scale-105 transition-transform duration-300"
+            >
+              <h3 className="text-xl font-semibold mb-2 text-white">{title}</h3>
+              <p className="text-gray-400">
+                {/* Add unique description for each project here */}
+              </p>
+            </div>
+          ))}
         </div>
-      </motion.section>
+      </MotionSection>
 
       {/* Contact Section */}
-      <motion.section
+      <MotionSection
         id="contact"
         className="py-20 px-6 max-w-xl mx-auto text-center"
         initial={{ opacity: 0, y: 40 }}
@@ -262,9 +223,9 @@ function App() {
         >
           📩 Drop a Mail
         </a>
-      </motion.section>
+      </MotionSection>
 
-      {/* Footer with Social Media Icons */}
+      {/* Footer */}
       <footer className="bg-[#0b0b0b] text-center py-6 text-sm text-gray-500 border-t border-gray-800">
         <div className="flex justify-center space-x-6 mb-2 text-yellow-400">
           <a
